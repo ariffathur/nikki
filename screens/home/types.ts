@@ -1,0 +1,1 @@
+// Home screen type definitions
