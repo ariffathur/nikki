@@ -1,29 +1,35 @@
-import { Tabs } from "expo-router";
+import { router, Slot, usePathname } from "expo-router";
+import { View } from "react-native";
+import { BottomNavigation } from "react-native-paper";
 
 export default function TabsLayout() {
+  const pathname = usePathname();
+
+  const routes = [
+    { key: "home", title: "Home", focusedIcon: "home" },
+    { key: "flashcard", title: "Flashcard", focusedIcon: "cards" },
+    { key: "setting", title: "Setting", focusedIcon: "cog" },
+  ];
+
+  const index = routes.findIndex((r) => pathname.startsWith(`/${r.key}`));
+
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
-      <Tabs.Screen
-        name="home/index"
-        options={{
-          title: "Home",
-          tabBarLabel: "Home",
+    <View style={{ flex: 1 }}>
+      {/* CONTENT */}
+      <View style={{ flex: 1 }}>
+        <Slot />
+      </View>
+
+      {/* BOTTOM TAB */}
+      <BottomNavigation.Bar
+        navigationState={{
+          index: index === -1 ? 0 : index,
+          routes,
+        }}
+        onTabPress={({ route }) => {
+          router.replace(`/${route.key}` as any);
         }}
       />
-      <Tabs.Screen
-        name="flashcard/index"
-        options={{
-          title: "Flashcard",
-          tabBarLabel: "Flashcard",
-        }}
-      />
-      <Tabs.Screen
-        name="setting/index"
-        options={{
-          title: "Setting",
-          tabBarLabel: "Setting",
-        }}
-      />
-    </Tabs>
+    </View>
   );
 }

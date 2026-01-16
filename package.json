@@ -10,7 +10,9 @@
     "lint": "npx expo lint",
     "prebuild": "npx expo prebuild --clean",
     "run:android": "npx expo run:android",
-    "run:ios": "npx expo run:ios"
+    "run:ios": "npx expo run:ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

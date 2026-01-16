@@ -1,10 +1,22 @@
 import { Stack } from "expo-router";
-import TabsLayout from "./(tabs)/_layout";
+import {
+  MD3LightTheme as DefaultTheme,
+  PaperProvider,
+} from "react-native-paper";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+  },
+};
 
 export default function RootLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <PaperProvider theme={theme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </PaperProvider>
   );
 }
