@@ -8,6 +8,7 @@ export interface FilterItem {
   id: string;
   label: string;
   selected: boolean;
+  testID?: string;
 }
 
 interface FilterChipsProps {
@@ -33,6 +34,7 @@ export const FilterChips = ({ filters }: FilterChipsProps) => {
           return (
             <Chip
               key={filter.id}
+              testID={filter.testID}
               style={[
                 styles.chip,
                 {

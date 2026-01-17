@@ -9,6 +9,7 @@ interface CardData {
   duration: string;
   title: string;
   date?: string; // Included if needed, though not displayed inside the card content based on original code, but might be useful.
+  testID?: string;
 }
 
 interface CardProps {
@@ -22,6 +23,10 @@ export const Card = ({ data }: CardProps) => {
     <PaperCard
       style={[styles.card, { backgroundColor: theme.colors.elevation.level1 }]}
       mode="contained"
+      testID={data.testID}
+      onPress={() => {
+        alert("cuk");
+      }}
     >
       <View style={styles.imageContainer}>
         <PaperCard.Cover

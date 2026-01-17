@@ -27,7 +27,7 @@ const CARDS = [
     duration: "29:22",
     title: "30 Minutes with 30 Dialogues to Improve English at Workplace |",
     image: "https://picsum.photos/700/350?random=1",
-    icon: "video",
+    icon: "youtube",
   },
   {
     id: "2",

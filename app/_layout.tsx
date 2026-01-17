@@ -1,17 +1,25 @@
 import { Stack } from "expo-router";
-import {
-  MD3LightTheme as DefaultTheme,
-  PaperProvider,
-} from "react-native-paper";
+import { useColorScheme } from "react-native";
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
 
-const theme = {
-  ...DefaultTheme,
+const lightTheme = {
+  ...MD3LightTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...MD3LightTheme.colors,
+  },
+};
+
+const darkTheme = {
+  ...MD3DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
   },
 };
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === "dark" ? darkTheme : lightTheme;
+
   return (
     <PaperProvider theme={theme}>
       <Stack screenOptions={{ headerShown: false }}>
