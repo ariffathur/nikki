@@ -8,6 +8,8 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomSheet } from "../../../context/BottomSheetContext";
+import { ImportBottomSheetContent } from "./ImportBottomSheetContent";
 
 interface HeaderProps {
   scrollY: SharedValue<number>;
@@ -16,6 +18,7 @@ interface HeaderProps {
 export const Header = ({ scrollY }: HeaderProps) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { openBottomSheet } = useBottomSheet();
 
   // Constants
   const HEADER_HEIGHT = 60;
@@ -27,7 +30,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
       scrollY.value,
       [0, SCROLL_RANGE - 20],
       [0, 1],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
     return {
       opacity,
@@ -39,7 +42,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
       scrollY.value,
       [0, SCROLL_RANGE],
       [42, 22],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     const startTop = insets.top + 60;
@@ -49,7 +52,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
       scrollY.value,
       [0, SCROLL_RANGE],
       [startTop, endTop],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     return {
@@ -87,7 +90,9 @@ export const Header = ({ scrollY }: HeaderProps) => {
         <IconButton
           icon="plus"
           size={26}
-          onPress={() => {}}
+          onPress={() => {
+            openBottomSheet(<ImportBottomSheetContent />, ["70%"]);
+          }}
           containerColor={theme.colors.secondaryContainer}
           iconColor={theme.colors.onSecondaryContainer}
           mode="contained"
