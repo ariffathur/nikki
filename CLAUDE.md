@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Starting Development
+
 - `yarn install` - Install dependencies
 - `yarn start` - Start the development server
 - `yarn android` - Run on Android emulator/device
@@ -20,12 +21,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `yarn web` - Run in web browser
 
 ### Code Quality
+
 - `yarn lint` - Run ESLint
 - `yarn reset-project` - Reset project (moves starter code to app-example/)
 
 ## Architecture
 
 ### File-Based Routing Structure
+
 The app uses **Expo Router** with a hybrid stack/tab navigation:
 
 ```
@@ -70,6 +73,7 @@ screens/{feature}/
 ```
 
 Features:
+
 - `home/` - Home screen with video content and shadowing interface
 - `home-search/` - Search functionality for discovering content
 - `flashcard/` - SRS flashcard system with review mode
@@ -94,24 +98,28 @@ Features:
 ### UI Components & Patterns
 
 **Global Bottom Sheet**:
+
 - Context-based API via `useBottomSheet()` hook from `context/BottomSheetContext.tsx`
 - Call `openBottomSheet(content, snapPoints)` to display any React node
 - Global instance rendered in root layout with `@gorhom/bottom-sheet`
 - Supports custom snap points (e.g., `["50%", "80%"]`)
 
 **Theming**:
+
 - Material Design 3 (MD3) with React Native Paper
 - Automatic dark/light mode based on system preference
 - Theme accessible via `useTheme()` hook
 - Custom theme extensions in `app/_layout.tsx`
 
 **Internationalization**:
+
 - `i18n-js` with `expo-localization` for auto-detecting device language
 - Custom `useTranslation()` hook wraps i18n API
 - Translations stored in `localization/translations/` (en.json, id.json)
 - Locale change triggers re-renders across components
 
 **Navigation Patterns**:
+
 - File-based routing via Expo Router with typed routes enabled
 - Route files in `app/` are thin wrappers importing from `screens/`
 - Bottom tabs controlled via React Native Paper's `BottomNavigation.Bar`
@@ -120,6 +128,7 @@ Features:
 ### Core Features to Implement
 
 **Video & Subtitle System**:
+
 - Video player interface (YouTube embed + local video playback)
 - Subtitle display with word-level interactivity
 - Word tap-to-explain functionality
@@ -127,12 +136,14 @@ Features:
 - Video transcription and subtitle generation
 
 **Flashcard System**:
+
 - Add sentences from subtitles to flashcard deck
 - Spaced repetition algorithm (SRS)
 - Review interface with flip animation
 - Progress tracking and scheduling
 
 **Content Management**:
+
 - YouTube video integration
 - Local video gallery support
 - Video library/playlist management
@@ -190,6 +201,7 @@ screens/home/
 ### 2. UI Components Strategy
 
 **Default to React Native Paper**: Always use React Native Paper components as the foundation. They provide:
+
 - Material Design 3 compliant components
 - Built-in theming support
 - Accessibility features
@@ -212,6 +224,7 @@ import { Button, Card, TextInput } from "react-native-paper";
 **Custom components**: Only create custom components when React Native Paper fundamentally cannot achieve the required functionality (not just for minor styling differences).
 
 Examples justifying custom components:
+
 - Complex animations not supported by RNP
 - Custom gesture handling
 - Platform-specific native behavior
@@ -238,6 +251,8 @@ components/
 ```
 
 **Decision criteria**: If a component is used in 2+ unrelated features and doesn't belong to any specific domain, it's a good candidate for `@components/`.
+
+**Don't forget testID**: Always add testID when creating new components
 
 ### 4. Translation Implementation
 
@@ -279,6 +294,7 @@ export const HomeScreen = () => {
 **Add translations**: Always add new keys to all translation files (`en.json`, `id.json`) when implementing features.
 
 **Exceptions - when hardcoding is acceptable**:
+
 - Dummy data for development/testing
 - Content fetched from API
 - Technical identifiers, debug logs, or keys
@@ -309,6 +325,7 @@ export const HomeScreen = () => {
 ```
 
 **Rules for design implementation**:
+
 1. Use the image to understand layout structure and component hierarchy
 2. Implement using React Native Paper components
 3. Apply RNP theming for colors and typography
@@ -334,6 +351,7 @@ components/BottomSheet/
 ```
 
 **What to test in the happy path**:
+
 1. **Render without crashing**: Component mounts with required props
 2. **Display props correctly**: Text, images, and data appear as expected
 3. **Basic user interactions**: Presses, inputs, and taps work
@@ -356,7 +374,7 @@ describe("Card", () => {
 
   it("renders correctly with required props", () => {
     const { getByText, getByTestId } = renderWithProviders(
-      <Card data={mockData} />
+      <Card data={mockData} />,
     );
 
     // Check title is displayed
@@ -379,6 +397,7 @@ describe("Card", () => {
 ```
 
 **Running tests**:
+
 ```bash
 # Run all tests once
 yarn test
@@ -391,11 +410,13 @@ yarn test:coverage
 ```
 
 **Test utilities**: Use `renderWithProviders` from `@/tests/test-utils` which wraps components with:
+
 - React Native Paper ThemeProvider
 - BottomSheetContext
 - Translation provider (mocked)
 
 **Requirements**:
+
 - ✅ Test every component (both feature-specific and global)
 - ✅ At minimum, test the happy path (success case)
 - ✅ Use `testID` props for querying elements when needed
