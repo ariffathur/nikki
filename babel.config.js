@@ -23,5 +23,28 @@ module.exports = function (api) {
       ],
       "react-native-reanimated/plugin",
     ],
+    env: {
+      test: {
+        plugins: [
+          [
+            "module-resolver",
+            {
+              root: ["./"],
+              alias: {
+                "@": "./",
+                "@localization": "./localization",
+                "@hooks": "./hooks",
+                "@contexts": "./contexts",
+                "@services": "./services",
+                "@components": "./components",
+                "@screens": "./screens",
+                "@assets": "./assets",
+              },
+              extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+            },
+          ],
+        ],
+      },
+    },
   };
 };

@@ -158,11 +158,258 @@ VSCode automatically organizes imports and fixes issues on save (configured in `
   - `typedRoutes`: True - enables typed routing
   - `reactCompiler`: True - enables React Compiler optimizations
 
+## Component & Screen Development Guidelines
+
+This section defines the standards for building UI components and screens in the Nikki app.
+
+### 1. Type Organization
+
+**Component-level types**: Keep types inline within component files when they're specific to that component.
+
+```tsx
+// screens/home/components/VideoCard.tsx
+interface VideoCardProps {
+  title: string;
+  thumbnailUrl: string;
+}
+```
+
+**Feature-level shared types**: When multiple components within a feature share the same types, create a `shared-types.ts` file at the feature level.
+
+```
+screens/home/
+├── shared-types.ts          # Shared types used across home components
+├── index.tsx
+└── components/
+    ├── VideoCard.tsx        # Uses types from shared-types.ts
+    └── VideoList.tsx        # Uses types from shared-types.ts
+```
+
+**Globally shared types**: Rare. Only create `@types/` for truly cross-cutting types used across multiple features.
+
+### 2. UI Components Strategy
+
+**Default to React Native Paper**: Always use React Native Paper components as the foundation. They provide:
+- Material Design 3 compliant components
+- Built-in theming support
+- Accessibility features
+- Consistent cross-platform behavior
+
+```tsx
+import { Button, Card, TextInput } from "react-native-paper";
+
+// ✅ Good: Use RNP components
+<Button mode="contained" onPress={handlePress}>
+  Submit
+</Button>
+
+// ❌ Bad: Creating custom button when RNP suffices
+<TouchableOpacity onPress={handlePress}>
+  <Text>Submit</Text>
+</TouchableOpacity>
+```
+
+**Custom components**: Only create custom components when React Native Paper fundamentally cannot achieve the required functionality (not just for minor styling differences).
+
+Examples justifying custom components:
+- Complex animations not supported by RNP
+- Custom gesture handling
+- Platform-specific native behavior
+- Specialized layouts not possible with RNP primitives
+
+### 3. Component Location Rules
+
+**Feature-specific components**: Place components in `screens/{feature}/components/` when they're only used within that feature.
+
+```
+screens/home/
+└── components/
+    ├── VideoCard.tsx        # Only used in home feature
+    ├── VideoList.tsx        # Only used in home feature
+    └── SubtitleDisplay.tsx  # Only used in home feature
+```
+
+**Global components**: Place in `@components/` only when genuinely reusable across multiple features.
+
+```
+components/
+└── BottomSheet/
+    └── GlobalBottomSheet.tsx  # ✅ Used app-wide
+```
+
+**Decision criteria**: If a component is used in 2+ unrelated features and doesn't belong to any specific domain, it's a good candidate for `@components/`.
+
+### 4. Translation Implementation
+
+**No hardcoded text**: All user-facing text must use the `useTranslation()` hook from `@hooks/useTranslation.ts`.
+
+```tsx
+import { useTranslation } from "@hooks/useTranslation";
+
+export const HomeScreen = () => {
+  const { t } = useTranslation();
+
+  return (
+    <View>
+      <Text>{t("home.welcome")}</Text>
+      <Button>{t("home.getStarted")}</Button>
+    </View>
+  );
+};
+```
+
+**Translation key structure**: Use feature-prefixed keys for organization.
+
+```json
+// localization/translations/en.json
+{
+  "home": {
+    "title": "Welcome to Nikki",
+    "addVideoButton": "Add Video",
+    "recentVideos": "Recent Videos"
+  },
+  "flashcard": {
+    "title": "Flashcards",
+    "flipCard": "Tap to flip",
+    "nextCard": "Next Card"
+  }
+}
+```
+
+**Add translations**: Always add new keys to all translation files (`en.json`, `id.json`) when implementing features.
+
+**Exceptions - when hardcoding is acceptable**:
+- Dummy data for development/testing
+- Content fetched from API
+- Technical identifiers, debug logs, or keys
+- Proper nouns (names, brands, etc.)
+
+### 5. Working with Design References
+
+**Images as layout guides**: When provided with an image/mockup, use it as a structural reference only.
+
+```tsx
+// ✅ Good: Translate design to RNP components
+<Card>
+  <Card.Cover source={{ uri: video.thumbnail }} />
+  <Card.Title title={video.title} />
+  <Card.Actions>
+    <Button mode="contained">{t("home.watch")}</Button>
+  </Card.Actions>
+</Card>
+
+// ❌ Bad: Recreating design pixel-perfect with custom components
+<View style={customCardStyles}>
+  <Image source={video.thumbnail} style={customImageStyles} />
+  <Text style={customTitleStyles}>{video.title}</Text>
+  <TouchableOpacity style={customButtonStyles}>
+    <Text>Watch</Text>
+  </TouchableOpacity>
+</View>
+```
+
+**Rules for design implementation**:
+1. Use the image to understand layout structure and component hierarchy
+2. Implement using React Native Paper components
+3. Apply RNP theming for colors and typography
+4. Add translations for all text content
+5. Focus on functionality and accessibility over exact visual replication
+
+### 6. Unit Testing Requirements
+
+**Every component must have a happy path unit test**. Tests ensure components render correctly and handle basic interactions.
+
+**Test file location**: Mirror the component structure in `__tests__/` directories:
+
+```
+screens/home/components/
+├── Card.tsx
+└── __tests__/
+    └── Card.test.tsx
+
+components/BottomSheet/
+├── GlobalBottomSheet.tsx
+└── __tests__/
+    └── GlobalBottomSheet.test.tsx
+```
+
+**What to test in the happy path**:
+1. **Render without crashing**: Component mounts with required props
+2. **Display props correctly**: Text, images, and data appear as expected
+3. **Basic user interactions**: Presses, inputs, and taps work
+
+**Example test for Card component**:
+
+```tsx
+// screens/home/components/__tests__/Card.test.tsx
+import { renderWithProviders } from "@/tests/test-utils";
+import { Card } from "../Card";
+
+describe("Card", () => {
+  const mockData = {
+    id: "1",
+    image: "https://example.com/video.jpg",
+    duration: "10:30",
+    title: "Japanese Lesson 1",
+    testID: "video-card-1",
+  };
+
+  it("renders correctly with required props", () => {
+    const { getByText, getByTestId } = renderWithProviders(
+      <Card data={mockData} />
+    );
+
+    // Check title is displayed
+    expect(getByText("Japanese Lesson 1")).toBeTruthy();
+
+    // Check testID is present
+    expect(getByTestId("video-card-1")).toBeTruthy();
+
+    // Check duration is displayed
+    expect(getByText("10:30")).toBeTruthy();
+  });
+
+  it("displays icon badge when icon prop is provided", () => {
+    const dataWithIcon = { ...mockData, icon: "play-circle" };
+    const { getByTestId } = renderWithProviders(<Card data={dataWithIcon} />);
+
+    expect(getByTestId("video-card-1")).toBeTruthy();
+  });
+});
+```
+
+**Running tests**:
+```bash
+# Run all tests once
+yarn test
+
+# Run tests in watch mode (re-run on file changes)
+yarn test:watch
+
+# Run tests with coverage report
+yarn test:coverage
+```
+
+**Test utilities**: Use `renderWithProviders` from `@/tests/test-utils` which wraps components with:
+- React Native Paper ThemeProvider
+- BottomSheetContext
+- Translation provider (mocked)
+
+**Requirements**:
+- ✅ Test every component (both feature-specific and global)
+- ✅ At minimum, test the happy path (success case)
+- ✅ Use `testID` props for querying elements when needed
+- ✅ Mock external dependencies (API calls, navigation, etc.)
+- ⚠️ Edge cases and error states are optional but encouraged
+
 ## Code Organization Patterns
 
 1. **Separation of concerns**: Route files handle routing only, business logic lives in screens
-2. **Feature-based structure**: Each screen is self-contained with its own api, types, hooks, and components
-3. **Shared components**: Keep reusable UI components in the root `components/` directory
+2. **Feature-based structure**: Each screen is self-contained with its own api, hooks, and components (types are either inline or in shared-types.ts)
+3. **Component location**: Feature-specific components in `screens/{feature}/components/`, global components in `@components/`
 4. **Context providers**: Global state and services managed via React Context (e.g., BottomSheetContext)
 5. **TypeScript strict mode**: All code must pass strict type checking
 6. **No native folders**: iOS and Android are generated (excluded from git)
+7. **Translation-first**: All user-facing text uses `useTranslation()` hook with feature-prefixed keys
+8. **RNP-default**: UI components built with React Native Paper unless custom components are necessary
+9. **Test-first**: Every component has a happy path unit test in `__tests__/` directory alongside the component
