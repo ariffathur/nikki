@@ -1,8 +1,8 @@
+import { useTranslation } from "@/hooks/useTranslation";
+import { useBottomSheet } from "@contexts/BottomSheetContext";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
-import { useTranslation } from "@/hooks/useTranslation";
-import { useBottomSheet } from "../../../context/BottomSheetContext";
 
 const OPTIONS = [
   {

@@ -12,6 +12,7 @@ module.exports = function (api) {
             "@": "./",
             "@localization": "./localization",
             "@hooks": "./hooks",
+            "@contexts": "./contexts",
             "@services": "./services",
             "@components": "./components",
             "@screens": "./screens",

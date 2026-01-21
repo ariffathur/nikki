@@ -1,3 +1,4 @@
+import { useBottomSheet } from "@contexts/BottomSheetContext";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -5,7 +6,6 @@ import BottomSheet, {
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "react-native-paper";
-import { useBottomSheet } from "../../context/BottomSheetContext";
 
 export const GlobalBottomSheet = () => {
   const { setBottomSheetRef, content, snapPoints, closeBottomSheet } =

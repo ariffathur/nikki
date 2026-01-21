@@ -91,6 +91,32 @@ Features:
 - **TypeScript** with strict mode enabled
 - **ESLint** with Expo config
 
+### UI Components & Patterns
+
+**Global Bottom Sheet**:
+- Context-based API via `useBottomSheet()` hook from `context/BottomSheetContext.tsx`
+- Call `openBottomSheet(content, snapPoints)` to display any React node
+- Global instance rendered in root layout with `@gorhom/bottom-sheet`
+- Supports custom snap points (e.g., `["50%", "80%"]`)
+
+**Theming**:
+- Material Design 3 (MD3) with React Native Paper
+- Automatic dark/light mode based on system preference
+- Theme accessible via `useTheme()` hook
+- Custom theme extensions in `app/_layout.tsx`
+
+**Internationalization**:
+- `i18n-js` with `expo-localization` for auto-detecting device language
+- Custom `useTranslation()` hook wraps i18n API
+- Translations stored in `localization/translations/` (en.json, id.json)
+- Locale change triggers re-renders across components
+
+**Navigation Patterns**:
+- File-based routing via Expo Router with typed routes enabled
+- Route files in `app/` are thin wrappers importing from `screens/`
+- Bottom tabs controlled via React Native Paper's `BottomNavigation.Bar`
+- Stack navigators within tabs for nested screens (e.g., flashcard/review.tsx)
+
 ### Core Features to Implement
 
 **Video & Subtitle System**:
@@ -119,7 +145,14 @@ VSCode automatically organizes imports and fixes issues on save (configured in `
 ### Project-Specific Settings
 
 - **Deep linking scheme**: `nikki://`
-- **Path alias**: `@/*` maps to project root (configured in tsconfig.json)
+- **Path aliases** (configured in tsconfig.json):
+  - `@/*` - maps to project root
+  - `@localization/*` - maps to localization/
+  - `@hooks/*` - maps to hooks/
+  - `@components/*` - maps to components/
+  - `@screens/*` - maps to screens/
+  - `@services/*` - maps to services/
+  - `@assets/*` - maps to assets/
 - **New Architecture**: Enabled for performance
 - **Experiments**:
   - `typedRoutes`: True - enables typed routing
@@ -130,5 +163,6 @@ VSCode automatically organizes imports and fixes issues on save (configured in `
 1. **Separation of concerns**: Route files handle routing only, business logic lives in screens
 2. **Feature-based structure**: Each screen is self-contained with its own api, types, hooks, and components
 3. **Shared components**: Keep reusable UI components in the root `components/` directory
-4. **TypeScript strict mode**: All code must pass strict type checking
-5. **No native folders**: iOS and Android are generated (excluded from git)
+4. **Context providers**: Global state and services managed via React Context (e.g., BottomSheetContext)
+5. **TypeScript strict mode**: All code must pass strict type checking
+6. **No native folders**: iOS and Android are generated (excluded from git)

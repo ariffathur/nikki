@@ -1,10 +1,10 @@
+import { BottomSheetProvider } from "@contexts/BottomSheetContext";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
 import { GlobalBottomSheet } from "../components/BottomSheet/GlobalBottomSheet";
-import { BottomSheetProvider } from "../context/BottomSheetContext";
 
 const lightTheme = {
   ...MD3LightTheme,

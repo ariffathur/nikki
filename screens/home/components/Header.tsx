@@ -1,3 +1,5 @@
+import { useTranslation } from "@/hooks/useTranslation";
+import { useBottomSheet } from "@contexts/BottomSheetContext";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
@@ -8,8 +10,6 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTranslation } from "@/hooks/useTranslation";
-import { useBottomSheet } from "../../../context/BottomSheetContext";
 import { ImportBottomSheetContent } from "./ImportBottomSheetContent";
 
 interface HeaderProps {
