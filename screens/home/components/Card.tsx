@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Icon, Card as PaperCard, Text, useTheme } from "react-native-paper";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CardData {
   id: string;
@@ -18,6 +19,7 @@ interface CardProps {
 
 export const Card = ({ data }: CardProps) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <PaperCard
@@ -25,7 +27,7 @@ export const Card = ({ data }: CardProps) => {
       mode="contained"
       testID={data.testID}
       onPress={() => {
-        alert("cuk");
+        alert(t("home.cardPressAlert"));
       }}
     >
       <View style={styles.imageContainer}>

@@ -8,6 +8,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useBottomSheet } from "../../../context/BottomSheetContext";
 import { ImportBottomSheetContent } from "./ImportBottomSheetContent";
 
@@ -19,6 +20,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { openBottomSheet } = useBottomSheet();
+  const { t } = useTranslation();
 
   // Constants
   const HEADER_HEIGHT = 60;
@@ -107,7 +109,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
           animatedTitleStyle,
         ]}
       >
-        Nikki
+        {t("home.title")}
       </Animated.Text>
     </>
   );

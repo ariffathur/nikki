@@ -1,7 +1,46 @@
 {
-  "home": {
-    "title": "Home Bersama"
+  "tabs": {
+    "home": "Home",
+    "flashcard": "Flashcard",
+    "setting": "Settings"
   },
-  "hello": "Hello",
-  "welcome": "Welcome to the app"
+  "home": {
+    "title": "Nikki",
+    "filters": {
+      "all": "All",
+      "english": "English",
+      "japaneseDrama": "Japanese Drama",
+      "podcast": "Podcast",
+      "news": "News"
+    },
+    "import": {
+      "title": "Import video or audio",
+      "subtitle": "Please select where you want to import the media from",
+      "options": {
+        "youtube": {
+          "title": "YouTube URL",
+          "description": "Play the YouTube video in app without downloading it"
+        },
+        "local": {
+          "title": "Local Media",
+          "description": "Import the media file from your local storage without copying it"
+        },
+        "album": {
+          "title": "Photo Album",
+          "description": "Import the media file from your photo album"
+        },
+        "miraa": {
+          "title": "Miraa Drop",
+          "description": "Drop materials between your nearby Miraa devices"
+        }
+      }
+    },
+    "cardPressAlert": "Card pressed"
+  },
+  "flashcard": {
+    "greeting": "Hello Flashcard"
+  },
+  "setting": {
+    "greeting": "Hello Settings"
+  }
 }

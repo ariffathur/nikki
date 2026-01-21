@@ -1,7 +1,46 @@
 {
-  "home": {
-    "title": "Home bersama"
+  "tabs": {
+    "home": "Beranda",
+    "flashcard": "Flashcard",
+    "setting": "Pengaturan"
   },
-  "hello": "Halo",
-  "welcome": "Selamat datang di aplikasi"
+  "home": {
+    "title": "Nikki",
+    "filters": {
+      "all": "Semua",
+      "english": "Inggris",
+      "japaneseDrama": "Drama Jepang",
+      "podcast": "Podcast",
+      "news": "Berita"
+    },
+    "import": {
+      "title": "Impor video atau audio",
+      "subtitle": "Silakan pilih dari mana Anda ingin mengimpor media",
+      "options": {
+        "youtube": {
+          "title": "URL YouTube",
+          "description": "Putar video YouTube di aplikasi tanpa mengunduhnya"
+        },
+        "local": {
+          "title": "Media Lokal",
+          "description": "Impor file media dari penyimpanan lokal Anda tanpa menyalinnya"
+        },
+        "album": {
+          "title": "Album Foto",
+          "description": "Impor file media dari album foto Anda"
+        },
+        "miraa": {
+          "title": "Miraa Drop",
+          "description": "Kirim materi antar perangkat Miraa terdekat Anda"
+        }
+      }
+    },
+    "cardPressAlert": "Kartu ditekan"
+  },
+  "flashcard": {
+    "greeting": "Halo Flashcard"
+  },
+  "setting": {
+    "greeting": "Halo Pengaturan"
+  }
 }

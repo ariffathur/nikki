@@ -1,14 +1,16 @@
 import { router, Slot, usePathname } from "expo-router";
 import { View } from "react-native";
 import { BottomNavigation } from "react-native-paper";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function TabsLayout() {
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   const routes = [
-    { key: "home", title: "Home", focusedIcon: "home" },
-    { key: "flashcard", title: "Flashcard", focusedIcon: "cards" },
-    { key: "setting", title: "Setting", focusedIcon: "cog" },
+    { key: "home", title: t("tabs.home"), focusedIcon: "home" },
+    { key: "flashcard", title: t("tabs.flashcard"), focusedIcon: "cards" },
+    { key: "setting", title: t("tabs.setting"), focusedIcon: "cog" },
   ];
 
   const index = routes.findIndex((r) => pathname.startsWith(`/${r.key}`));

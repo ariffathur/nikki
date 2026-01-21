@@ -1,35 +1,35 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text, useTheme } from "react-native-paper";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useBottomSheet } from "../../../context/BottomSheetContext";
 
 const OPTIONS = [
   {
     id: "youtube",
-    title: "Youtube URL",
-    description: "Play the Youtube video in app without downloading it",
+    titleKey: "home.import.options.youtube.title",
+    descriptionKey: "home.import.options.youtube.description",
     icon: "video",
     testId: "option-youtube",
   },
   {
     id: "local",
-    title: "Local Media",
-    description:
-      "Import the media file from your local storage without copying it",
+    titleKey: "home.import.options.local.title",
+    descriptionKey: "home.import.options.local.description",
     icon: "file-document",
     testId: "option-local",
   },
   {
     id: "album",
-    title: "Photo Album",
-    description: "Import the media file from your photo album",
+    titleKey: "home.import.options.album.title",
+    descriptionKey: "home.import.options.album.description",
     icon: "image-album",
     testId: "option-album",
   },
   {
     id: "miraa",
-    title: "Miraa Drop",
-    description: "Drop materials between your nearby miraa devices",
+    titleKey: "home.import.options.miraa.title",
+    descriptionKey: "home.import.options.miraa.description",
     icon: "target",
     testId: "option-miraa",
   },
@@ -38,6 +38,7 @@ const OPTIONS = [
 export const ImportBottomSheetContent = () => {
   const theme = useTheme();
   const { closeBottomSheet } = useBottomSheet();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.surface }]}>
@@ -45,7 +46,7 @@ export const ImportBottomSheetContent = () => {
         style={[styles.headerTitle, { color: theme.colors.onSurface }]}
         variant="titleMedium"
       >
-        Import video or audio
+        {t("home.import.title")}
       </Text>
       <Text
         style={[
@@ -54,7 +55,7 @@ export const ImportBottomSheetContent = () => {
         ]}
         variant="bodyMedium"
       >
-        Please select where you want to import the media from
+        {t("home.import.subtitle")}
       </Text>
 
       <View style={styles.listContainer}>
@@ -85,13 +86,13 @@ export const ImportBottomSheetContent = () => {
                 style={{ color: theme.colors.onSurface, fontWeight: "bold" }}
                 variant="labelLarge"
               >
-                {option.title}
+                {t(option.titleKey)}
               </Text>
               <Text
                 style={{ color: theme.colors.onSurfaceVariant, marginTop: 4 }}
                 variant="bodySmall"
               >
-                {option.description}
+                {t(option.descriptionKey)}
               </Text>
             </View>
           </TouchableOpacity>

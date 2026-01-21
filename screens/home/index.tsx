@@ -6,19 +6,14 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Card as ContentCard } from "./components/Card";
 import { FilterChips } from "./components/FilterChips";
 import { Header } from "./components/Header";
 
 // --- Dummy Data ---
 
-const FILTERS = [
-  { id: "1", label: "All", selected: true },
-  { id: "2", label: "english", selected: false },
-  { id: "3", label: "Japanes drama", selected: false },
-  { id: "4", label: "Podcast", selected: false },
-  { id: "5", label: "News", selected: false },
-];
+// Note: FILTERS will be defined inside the component to use useTranslation hook
 
 const CARDS = [
   {
@@ -59,10 +54,20 @@ export default function HomeScreen() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
+  const { t } = useTranslation();
 
   // Constants for layout
   const HEADER_HEIGHT = 60;
   const EXPANDED_TITLE_HEIGHT = 50;
+
+  // Define filters with translations
+  const FILTERS = [
+    { id: "1", label: t("home.filters.all"), selected: true },
+    { id: "2", label: t("home.filters.english"), selected: false },
+    { id: "3", label: t("home.filters.japaneseDrama"), selected: false },
+    { id: "4", label: t("home.filters.podcast"), selected: false },
+    { id: "5", label: t("home.filters.news"), selected: false },
+  ];
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
