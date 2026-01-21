@@ -5,7 +5,7 @@ module.exports = {
   testPathIgnorePatterns: ["/node_modules/", "/app-example/"],
   setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
   transformIgnorePatterns: [
-    "node_modules/(?!(react-native|@react-native|@react-navigation|@gorhom|expo|expo-*|@expo|react-native-paper|@callstack/react-theme-provider)/)",
+    "node_modules/(?!(react-native|@react-native|@react-navigation|@gorhom|expo|expo-*|@expo|react-native-paper|@callstack/react-theme-provider|react-native-gesture-handler|react-native-safe-area-context|react-native-worklets)/)",
   ],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
@@ -16,6 +16,7 @@ module.exports = {
     "^@components/(.*)$": "<rootDir>/components/$1",
     "^@screens/(.*)$": "<rootDir>/screens/$1",
     "^@assets/(.*)$": "<rootDir>/assets/$1",
+    "^react-native-reanimated$": "<rootDir>/__mocks__/react-native-reanimated/index.ts",
   },
   collectCoverageFrom: [
     "screens/**/*.{ts,tsx}",
