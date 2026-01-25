@@ -1,7 +1,9 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Icon, Card as PaperCard, Text, useTheme } from "react-native-paper";
 import { useTranslation } from "@/hooks/useTranslation";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { runOnJS } from "react-native-reanimated";
+import { Icon, Card as PaperCard, Text, useTheme } from "react-native-paper";
 
 interface CardData {
   id: string;
@@ -11,6 +13,8 @@ interface CardData {
   title: string;
   date?: string; // Included if needed, though not displayed inside the card content based on original code, but might be useful.
   testID?: string;
+  progress?: number; // Progress percentage (0-100)
+  onLongPress?: () => void;
 }
 
 interface CardProps {
@@ -20,56 +24,95 @@ interface CardProps {
 export const Card = ({ data }: CardProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleLongPressStart = () => {
+    console.log("Long Press Started");
+    setIsPressed(true);
+  };
+
+  const handleLongPressEnd = () => {
+    console.log("Long Press Ended");
+    setIsPressed(false);
+    if (data.onLongPress) {
+      data.onLongPress();
+    }
+  };
+
+  const longPressGesture = Gesture.LongPress()
+    .onStart(() => {
+      "worklet";
+      runOnJS(handleLongPressStart)();
+    })
+    .onEnd(() => {
+      "worklet";
+      runOnJS(handleLongPressEnd)();
+    });
 
   return (
-    <PaperCard
-      style={[styles.card, { backgroundColor: theme.colors.elevation.level1 }]}
-      mode="contained"
-      testID={data.testID}
-      onPress={() => {
-        alert(t("home.cardPressAlert"));
-      }}
-    >
-      <View style={styles.imageContainer}>
-        <PaperCard.Cover
-          source={{ uri: data.image }}
-          style={styles.cardImage}
-        />
+    <GestureDetector gesture={longPressGesture}>
+      <PaperCard
+        style={[
+          styles.card,
+          {
+            backgroundColor: isPressed
+              ? theme.colors.surfaceVariant
+              : theme.colors.elevation.level1,
+          },
+        ]}
+        mode="contained"
+        testID={data.testID}
+        onPress={() => {
+          alert(t("home.cardPressAlert"));
+        }}
+      >
+        <View style={styles.imageContainer}>
+          <PaperCard.Cover
+            source={{ uri: data.image }}
+            style={styles.cardImage}
+          />
 
-        {/* Overlay Icon (Top Right) */}
-        {data.icon && (
+          {/* Overlay Icon (Top Right) */}
+          {data.icon && (
+            <View
+              style={[
+                styles.iconBadge,
+                { backgroundColor: theme.colors.surface },
+              ]}
+            >
+              <Icon
+                source={data.icon}
+                size={20}
+                color={theme.colors.onSurface}
+              />
+            </View>
+          )}
+
+          {/* Duration Badge */}
           <View
             style={[
-              styles.iconBadge,
+              styles.durationBadge,
               { backgroundColor: theme.colors.surface },
             ]}
           >
-            <Icon source={data.icon} size={20} color={theme.colors.onSurface} />
+            <Text
+              style={[styles.durationText, { color: theme.colors.primary }]}
+            >
+              {data.duration}
+            </Text>
           </View>
-        )}
-
-        {/* Duration Badge */}
-        <View
-          style={[
-            styles.durationBadge,
-            { backgroundColor: theme.colors.surface },
-          ]}
-        >
-          <Text style={[styles.durationText, { color: theme.colors.primary }]}>
-            {data.duration}
-          </Text>
         </View>
-      </View>
 
-      <PaperCard.Content style={styles.cardContent}>
-        <Text
-          variant="titleMedium"
-          style={[styles.cardTitle, { color: theme.colors.onSurface }]}
-        >
-          {data.title}
-        </Text>
-      </PaperCard.Content>
-    </PaperCard>
+        <PaperCard.Content style={styles.cardContent}>
+          <Text
+            variant="titleMedium"
+            style={[styles.cardTitle, { color: theme.colors.onSurface }]}
+          >
+            {data.title}
+          </Text>
+        </PaperCard.Content>
+      </PaperCard>
+    </GestureDetector>
   );
 };
 

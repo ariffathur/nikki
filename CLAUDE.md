@@ -434,3 +434,4 @@ yarn test:coverage
 7. **Translation-first**: All user-facing text uses `useTranslation()` hook with feature-prefixed keys
 8. **RNP-default**: UI components built with React Native Paper unless custom components are necessary
 9. **Test-first**: Every component has a happy path unit test in `__tests__/` directory alongside the component
+- try to add style margin not from the Icon component since it doesn't have style property. and please fix this error.

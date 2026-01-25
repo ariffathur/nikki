@@ -7,7 +7,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useBottomSheet } from "@contexts/BottomSheetContext";
 import { Card as ContentCard } from "./components/Card";
+import { CardOptionsBottomSheet } from "./components/CardOptionsBottomSheet";
 import { FilterChips } from "./components/FilterChips";
 import { Header } from "./components/Header";
 
@@ -23,6 +25,7 @@ const CARDS = [
     title: "30 Minutes with 30 Dialogues to Improve English at Workplace |",
     image: "https://picsum.photos/700/350?random=1",
     icon: "youtube",
+    progress: 40,
   },
   {
     id: "2",
@@ -31,6 +34,7 @@ const CARDS = [
     title: "The Easiest Way to Learn Real English Naturally",
     image: "https://picsum.photos/700/350?random=2",
     icon: "play",
+    progress: 75,
   },
   {
     id: "3",
@@ -39,6 +43,7 @@ const CARDS = [
     title: "Daily Conversation Routine for Beginners",
     image: "https://picsum.photos/700/350?random=3",
     icon: "video",
+    progress: 20,
   },
   {
     id: "4",
@@ -47,6 +52,7 @@ const CARDS = [
     title: "Mastering Japanese Drama Vocabulary",
     image: "https://picsum.photos/700/350?random=4",
     icon: "play",
+    progress: 90,
   },
 ];
 
@@ -55,6 +61,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
   const { t } = useTranslation();
+  const { openBottomSheet } = useBottomSheet();
 
   // Constants for layout
   const HEADER_HEIGHT = 60;
@@ -72,6 +79,30 @@ export default function HomeScreen() {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
   });
+
+  const handleCardLongPress = (cardData: typeof CARDS[0]) => {
+    openBottomSheet(
+      <CardOptionsBottomSheet
+        videoData={{
+          id: cardData.id,
+          title: cardData.title,
+          image: cardData.image,
+          duration: cardData.duration,
+          progress: cardData.progress,
+        }}
+        onDelete={() => {
+          console.log("Delete from history:", cardData.id);
+        }}
+        onAddToPlaylist={() => {
+          console.log("Add to playlist:", cardData.id);
+        }}
+        onShare={() => {
+          console.log("Share:", cardData.id);
+        }}
+      />,
+      ["70%", "90%"],
+    );
+  };
 
   return (
     <View
@@ -110,7 +141,12 @@ export default function HomeScreen() {
                 </Text>
               )}
 
-              <ContentCard data={item} />
+              <ContentCard
+                data={{
+                  ...item,
+                  onLongPress: () => handleCardLongPress(item),
+                }}
+              />
             </View>
           );
         }}

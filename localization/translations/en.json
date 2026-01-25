@@ -35,7 +35,13 @@
         }
       }
     },
-    "cardPressAlert": "Card pressed"
+    "cardPressAlert": "Card pressed",
+    "cardOptions": {
+      "title": "Continuing Watching",
+      "deleteFromHistory": "Delete",
+      "addToPlaylist": "Add to Playlist",
+      "rename": "Rename"
+    }
   },
   "flashcard": {
     "greeting": "Hello Flashcard"

@@ -35,7 +35,13 @@
         }
       }
     },
-    "cardPressAlert": "Kartu ditekan"
+    "cardPressAlert": "Kartu ditekan",
+    "cardOptions": {
+      "title": "Lanjutkan Menonton",
+      "deleteFromHistory": "Hapus",
+      "addToPlaylist": "Tambahkan ke Daftar Putar",
+      "rename": "Ganti Nama"
+    }
   },
   "flashcard": {
     "greeting": "Halo Flashcard"
