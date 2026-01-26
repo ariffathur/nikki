@@ -8,6 +8,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useBottomSheet } from "@contexts/BottomSheetContext";
+import { EmptyState } from "@components/EmptyState";
 import { Card as ContentCard } from "./components/Card";
 import { CardOptionsBottomSheet } from "./components/CardOptionsBottomSheet";
 import { FilterChips } from "./components/FilterChips";
@@ -110,47 +111,51 @@ export default function HomeScreen() {
     >
       <Header scrollY={scrollY} />
 
-      {/* --- FlatList Content --- */}
-      <Animated.FlatList
-        data={CARDS}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{
-          paddingTop: insets.top + HEADER_HEIGHT + EXPANDED_TITLE_HEIGHT + 24,
-          paddingBottom: 100,
-        }}
-        onScroll={scrollHandler}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<FilterChips filters={FILTERS} />}
-        renderItem={({ item, index }) => {
-          // Grouping Logic: Show date only if it's the first item OR different from previous
-          const prevItem = CARDS[index - 1];
-          const showDate = index === 0 || item.date !== prevItem?.date;
+      {CARDS.length === 0 ? (
+        <EmptyState message={t("emptyState.noContentFound")} />
+      ) : (
+        /* --- FlatList Content --- */
+        <Animated.FlatList
+          data={CARDS}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{
+            paddingTop: insets.top + HEADER_HEIGHT + EXPANDED_TITLE_HEIGHT + 24,
+            paddingBottom: 100,
+          }}
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<FilterChips filters={FILTERS} />}
+          renderItem={({ item, index }) => {
+            // Grouping Logic: Show date only if it's the first item OR different from previous
+            const prevItem = CARDS[index - 1];
+            const showDate = index === 0 || item.date !== prevItem?.date;
 
-          return (
-            <View style={styles.cardWrapper}>
-              {showDate && (
-                <Text
-                  variant="titleSmall"
-                  style={[
-                    styles.dateText,
-                    { color: theme.colors.onSurfaceVariant },
-                  ]}
-                >
-                  {item.date}
-                </Text>
-              )}
+            return (
+              <View style={styles.cardWrapper}>
+                {showDate && (
+                  <Text
+                    variant="titleSmall"
+                    style={[
+                      styles.dateText,
+                      { color: theme.colors.onSurfaceVariant },
+                    ]}
+                  >
+                    {item.date}
+                  </Text>
+                )}
 
-              <ContentCard
-                data={{
-                  ...item,
-                  onLongPress: () => handleCardLongPress(item),
-                }}
-              />
-            </View>
-          );
-        }}
-      />
+                <ContentCard
+                  data={{
+                    ...item,
+                    onLongPress: () => handleCardLongPress(item),
+                  }}
+                />
+              </View>
+            );
+          }}
+        />
+      )}
     </View>
   );
 }

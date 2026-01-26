@@ -48,5 +48,12 @@
   },
   "setting": {
     "greeting": "Hello Settings"
+  },
+  "search": {
+    "placeholder": "Search content...",
+    "noResults": "No results found"
+  },
+  "emptyState": {
+    "noContentFound": "No content found"
   }
 }

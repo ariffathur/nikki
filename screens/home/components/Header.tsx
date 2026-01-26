@@ -2,6 +2,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useBottomSheet } from "@contexts/BottomSheetContext";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 import { IconButton, useTheme } from "react-native-paper";
 import Animated, {
   Extrapolation,
@@ -21,6 +22,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const { openBottomSheet } = useBottomSheet();
   const { t } = useTranslation();
+  const router = useRouter();
 
   // Constants
   const HEADER_HEIGHT = 60;
@@ -86,7 +88,7 @@ export const Header = ({ scrollY }: HeaderProps) => {
         <IconButton
           icon="magnify"
           size={26}
-          onPress={() => {}}
+          onPress={() => router.push("/home/search")}
           iconColor={theme.colors.onSurface}
         />
         <IconButton

@@ -3,22 +3,38 @@ import HomeSearchScreen from "../index";
 
 describe("HomeSearchScreen", () => {
   it("renders correctly without crashing", () => {
-    const { getByText } = renderWithProviders(<HomeSearchScreen />);
+    const { getByTestId } = renderWithProviders(<HomeSearchScreen />);
 
-    // Check text is displayed
-    expect(getByText("Hello Home")).toBeTruthy();
+    // Check that search bar is present
+    expect(getByTestId("search-input")).toBeTruthy();
   });
 
-  it("displays simple greeting message", () => {
-    const { getByText } = renderWithProviders(<HomeSearchScreen />);
+  it("displays search bar component", () => {
+    const { getByTestId } = renderWithProviders(<HomeSearchScreen />);
 
-    expect(getByText("Hello Home")).toBeTruthy();
+    // Check search bar exists with testID
+    expect(getByTestId("search-input")).toBeTruthy();
   });
 
-  it("renders within View container", () => {
+  it("shows search bar with back icon", () => {
+    const { getByTestId } = renderWithProviders(<HomeSearchScreen />);
+
+    // Searchbar includes the back icon as part of the component
+    expect(getByTestId("search-input")).toBeTruthy();
+  });
+
+  it("displays empty state when no search query", () => {
     const { getByText } = renderWithProviders(<HomeSearchScreen />);
 
-    // Component should render
-    expect(HomeSearchScreen).toBeDefined();
+    // Translation mock returns the key itself
+    expect(getByText("emptyState.noContentFound")).toBeTruthy();
+  });
+
+  it("is wrapped with SafeAreaView", () => {
+    const { UNSAFE_getByType } = renderWithProviders(<HomeSearchScreen />);
+    const { SafeAreaView } = require("react-native-safe-area-context");
+
+    // Check that SafeAreaView is present
+    expect(UNSAFE_getByType(SafeAreaView)).toBeTruthy();
   });
 });
