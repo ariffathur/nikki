@@ -65,3 +65,16 @@ jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: any) => children,
   SafeAreaView: ({ children }: any) => children,
 }));
+
+// Mock expo-router
+jest.mock("expo-router", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    back: jest.fn(),
+    replace: jest.fn(),
+    canGoBack: jest.fn(() => true),
+  }),
+  useLocalSearchParams: () => ({}),
+  useSegments: () => [],
+  usePathname: () => "/",
+}));

@@ -48,5 +48,12 @@
   },
   "setting": {
     "greeting": "Halo Pengaturan"
+  },
+  "search": {
+    "placeholder": "Cari konten...",
+    "noResults": "Tidak ada hasil"
+  },
+  "emptyState": {
+    "noContentFound": "Tidak ada konten ditemukan"
   }
 }
