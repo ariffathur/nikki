@@ -1,14 +1,14 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for AI coding agents working in this repository.
 
 ## Project Overview
 
 **Nikki** (日記 - meaning "diary" in Japanese) is a language learning app focused on **comprehensible input** through two core methodologies:
 
-1. **Shadowing Practice**: Users add YouTube videos or videos from phone gallery. The app transcribes and adds subtitles, enabling users to shadow (speak along with) the content while receiving explanations when tapping individual words in the subtitles.
+1. **Shadowing Practice**: Users add **YouTube videos**. The app transcribes and adds subtitles, enabling users to shadow (speak along with) the content while receiving explanations when tapping individual words in the subtitles. _(MVP is YouTube-only; local/video-gallery playback is out of scope.)_
 
-2. **Spaced Repetition Flashcards**: Users can save any sentence from videos to their personal flashcard deck for review through a spaced repetition system (SRS), facilitating long-term language acquisition.
+2. **Spaced Repetition Flashcards**: Users can save any sentence from videos to their personal flashcard deck for review through a spaced repetition system (SRS). **Flashcard model**: the **front** of each card is the **YouTube video clip containing the target sentence**; the **back** is the **word/phrase to remember**. This pairs audio-visual context (front) with the target item (back), facilitating long-term language acquisition.
 
 ## Development Commands
 
@@ -127,9 +127,9 @@ Features:
 
 ### Core Features to Implement
 
-**Video & Subtitle System**:
+**Video & Subtitle System** (MVP: YouTube-only):
 
-- Video player interface (YouTube embed + local video playback)
+- Video player interface (YouTube embed)
 - Subtitle display with word-level interactivity
 - Word tap-to-explain functionality
 - Shadowing practice mode
@@ -138,6 +138,8 @@ Features:
 **Flashcard System**:
 
 - Add sentences from subtitles to flashcard deck
+- **Card front**: YouTube video clip containing the target sentence
+- **Card back**: the word/phrase to remember
 - Spaced repetition algorithm (SRS)
 - Review interface with flip animation
 - Progress tracking and scheduling
@@ -145,7 +147,6 @@ Features:
 **Content Management**:
 
 - YouTube video integration
-- Local video gallery support
 - Video library/playlist management
 - Search and discover content
 
@@ -253,6 +254,8 @@ components/
 **Decision criteria**: If a component is used in 2+ unrelated features and doesn't belong to any specific domain, it's a good candidate for `@components/`.
 
 **Don't forget testID**: Always add testID when creating new components
+
+- **Icon styling**: Icon components do not accept a `style` prop. To add margin/spacing around an icon, wrap it in a `View` with margin or apply spacing to its parent, rather than passing `style` to the icon.
 
 ### 4. Translation Implementation
 
@@ -434,4 +437,3 @@ yarn test:coverage
 7. **Translation-first**: All user-facing text uses `useTranslation()` hook with feature-prefixed keys
 8. **RNP-default**: UI components built with React Native Paper unless custom components are necessary
 9. **Test-first**: Every component has a happy path unit test in `__tests__/` directory alongside the component
-- try to add style margin not from the Icon component since it doesn't have style property. and please fix this error.
