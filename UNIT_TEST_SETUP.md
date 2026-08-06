@@ -1,7 +1,7 @@
 # Unit Test Implementation Summary
 
 ## Overview
-Successfully created unit tests for all components in the Nikki project following the project guidelines.
+Successfully created unit tests for all components in the Nekotango project following the project guidelines.
 
 ## Final Test Results
 - **Total Test Suites**: 12

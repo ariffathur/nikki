@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Project Overview
 
-**Nikki** (日記 - meaning "diary" in Japanese) is a language learning app focused on **comprehensible input** through two core methodologies:
+**Nekotango** (日記 - meaning "diary" in Japanese) is a language learning app focused on **comprehensible input** through two core methodologies:
 
 1. **Shadowing Practice**: Users add **YouTube videos**. The app transcribes and adds subtitles, enabling users to shadow (speak along with) the content while receiving explanations when tapping individual words in the subtitles. _(MVP is YouTube-only; local/video-gallery playback is out of scope.)_
 
@@ -156,7 +156,7 @@ VSCode automatically organizes imports and fixes issues on save (configured in `
 
 ### Project-Specific Settings
 
-- **Deep linking scheme**: `nikki://`
+- **Deep linking scheme**: `nekotango://`
 - **Path aliases** (configured in tsconfig.json):
   - `@/*` - maps to project root
   - `@localization/*` - maps to localization/
@@ -172,7 +172,7 @@ VSCode automatically organizes imports and fixes issues on save (configured in `
 
 ## Component & Screen Development Guidelines
 
-This section defines the standards for building UI components and screens in the Nikki app.
+This section defines the standards for building UI components and screens in the Nekotango app.
 
 ### 1. Type Organization
 
@@ -282,7 +282,7 @@ export const HomeScreen = () => {
 // localization/translations/en.json
 {
   "home": {
-    "title": "Welcome to Nikki",
+    "title": "Welcome to Nekotango",
     "addVideoButton": "Add Video",
     "recentVideos": "Recent Videos"
   },

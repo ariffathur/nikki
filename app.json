@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "nikki",
-    "slug": "nikki",
+    "name": "nekotango",
+    "slug": "nekotango",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "nikki",
+    "scheme": "nekotango",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.radeyalabs.nikki"
+      "bundleIdentifier": "app.nekotango"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.radeyalabs.nikki"
+      "package": "app.nekotango"
     },
     "web": {
       "output": "static",
